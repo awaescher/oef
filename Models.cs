@@ -9,6 +9,15 @@ public record EmbeddingRequest
 	public string Input { get; set; } = "";
 }
 
+public record OllamaEmbeddingRequest
+{
+	[JsonPropertyName("model")]
+	public string Model { get; set; } = "";
+
+	[JsonPropertyName("prompt")]
+	public string Prompt { get; set; } = "";
+}
+
 public record EmbeddingResponse
 {
 	[JsonPropertyName("object")]
