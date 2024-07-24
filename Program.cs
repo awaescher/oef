@@ -24,7 +24,6 @@ Console.WriteLine("==================================");
 Console.WriteLine($" oef: Ollama Embeddings Forwarder");
 Console.WriteLine("----------------------------------");
 Console.WriteLine($"Forwarding to \"{ollamaUrl}\"");
-Console.WriteLine($"Listening on port {port}");
 Console.WriteLine("");
 
 app.MapPost("/v1/embeddings", async (HttpContext context) =>
