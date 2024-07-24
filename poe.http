@@ -1,6 +1,0 @@
-@poe_HostAddress = http://localhost:11435
-
-GET {{poe_HostAddress}}/v1/embeddings/
-Accept: application/json
-
-###
