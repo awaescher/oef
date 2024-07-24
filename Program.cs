@@ -11,6 +11,7 @@ var port = config.GetValue<int>("Port");
 var ollamaUrl = config.GetValue<string>("OllamaUrl");
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.UseUrls($"http://*:{port}");
 var app = builder.Build();
 
 if (port < 1)
@@ -22,8 +23,8 @@ if (string.IsNullOrWhiteSpace(ollamaUrl))
 Console.WriteLine("==================================");
 Console.WriteLine($" oef: Ollama Embeddings Forwarder");
 Console.WriteLine("----------------------------------");
-Console.WriteLine($"Listening on port {port}");
 Console.WriteLine($"Forwarding to \"{ollamaUrl}\"");
+Console.WriteLine($"Listening on port {port}");
 Console.WriteLine("");
 
 app.MapPost("/v1/embeddings", async (HttpContext context) =>
