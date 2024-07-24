@@ -21,7 +21,7 @@ embeddings:
     api_key: ollama
     type: openai_embedding
     model: Losspost/stella_en_1.5b_v5:latest
-    api_base: http://your-ollama-host:11434/v1                   # <-- Ollama is not supported here
+    api_base: http://your-ollama-host:11434/v1                  # <-- Ollama is not supported here
 
 ```
 
