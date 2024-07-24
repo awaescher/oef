@@ -26,7 +26,7 @@ Console.WriteLine("----------------------------------");
 Console.WriteLine($"Forwarding to \"{ollamaUrl}\"");
 Console.WriteLine("");
 
-app.MapPost("/v1/embeddings", async (HttpContext context) =>
+var embeddingsHandler = async (HttpContext context) =>
 {
 	try
 	{
@@ -65,7 +65,10 @@ app.MapPost("/v1/embeddings", async (HttpContext context) =>
 		Console.WriteLine($"Error: {ex.Message}");
 		context.Response.StatusCode = 500;
 	}
-});
+};
+
+app.MapPost("/embeddings", embeddingsHandler);
+app.MapPost("/v1/embeddings", embeddingsHandler);
 
 await app.RunAsync();
 
