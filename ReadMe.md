@@ -21,7 +21,7 @@ embeddings:
     api_key: ollama
     type: openai_embedding
     model: Losspost/stella_en_1.5b_v5:latest
-    api_base: http://localhost:11435/v1                 # <-- Ollama is not supported here
+    api_base: http://your-ollama-host:11434/v1                   # <-- Ollama is not supported here
 
 ```
 
@@ -55,7 +55,9 @@ ValueError: Columns must be same length as key
 
 ## How?
 
-Clone and run oef with the following command:
+### Clone and run oef
+
+Clone this repository and run the following command:
 
 ```bash
 dotnet run --ollamaurl http://your-ollama-host:11434
@@ -64,6 +66,30 @@ dotnet run --ollamaurl http://your-ollama-host:11434
 This will start oef which will listen on the defined (or default) port and forward calls to `/v1/embeddings` to the defined Ollama url and translate to the expected json formats in both directions.
 
 ![Console](doc/Console.jpg)
+
+### Use oef in settings.yml
+
+In the `settings.yml` shown above, use the oef endpoint url instead of the Ollama url:
+
+```yaml
+# settings.yaml
+
+llm:
+  api_key: ollama
+  type: openai_chat
+  model: llama3.1:8b
+  api_base: http://your-ollama-host:11434/v1
+  ...
+
+embeddings:
+  llm:
+    api_key: ollama
+    type: openai_embedding
+    model: Losspost/stella_en_1.5b_v5:latest
+    api_base: http://your-oef-host:11435                    # <-- this line needs to be changed
+```
+
+From now on, GraphRAG will ask your oef host for the embeddings, which forwards the request to Ollama.
 
 ### Settings
 
