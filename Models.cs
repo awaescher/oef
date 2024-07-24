@@ -1,27 +1,46 @@
+using System.Text.Json.Serialization;
 
 public record EmbeddingRequest
 {
-    public string Model { get; set; } = "";
-    public List<string> Input { get; set; } = [];
+	[JsonPropertyName("model")]
+	public string Model { get; set; } = "";
+
+	[JsonPropertyName("input")]
+	public string Input { get; set; } = "";
 }
 
 public record EmbeddingResponse
 {
-    public string Object { get; set; } = "";
-    public List<EmbeddingData> Data { get; set; } = [];
-    public string Model { get; set; } = "";
-    public UsageData Usage { get; set; } = new();
+	[JsonPropertyName("object")]
+	public string Object { get; set; } = "";
+
+	[JsonPropertyName("data")]
+	public List<EmbeddingData> Data { get; set; } = [];
+
+	[JsonPropertyName("model")]
+	public string Model { get; set; } = "";
+
+	[JsonPropertyName("usage")]
+	public UsageData Usage { get; set; } = new();
 }
 
 public record EmbeddingData
 {
-    public string Object { get; set; } = "";
-    public int Index { get; set; } = 0;
-    public List<float> Embedding { get; set; } = [];
+	[JsonPropertyName("object")]
+	public string Object { get; set; } = "";
+
+	[JsonPropertyName("index")]
+	public int Index { get; set; } = 0;
+
+	[JsonPropertyName("embedding")]
+	public List<float> Embedding { get; set; } = [];
 }
 
 public record UsageData
 {
-    public int PromptTokens { get; set; } = 0;
-    public int TotalTokens { get; set; } = 0;
+	[JsonPropertyName("prompt_token")]
+	public int PromptTokens { get; set; } = 0;
+
+	[JsonPropertyName("total_tokens")]
+	public int TotalTokens { get; set; } = 0;
 }
