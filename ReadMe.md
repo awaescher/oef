@@ -1,6 +1,6 @@
 oef is a tiny dotnet web api that can receive GraphRAG embedding requests and forward them to an Ollama instance.
 
-# Why?
+## Why?
 
 This is necessary because GraphRAG expects an OpenAI compatible api that is very close to but not equal to the embedding api offered by Ollama.
 
@@ -53,17 +53,23 @@ Traceback (most recent call last):
 ValueError: Columns must be same length as key
 ```
 
-# How?
+## How?
 
-Clone and run oef with the following command
+Clone and run oef with the following command:
 
 ```bash
 dotnet run --ollamaurl http://your-ollama-host:11434
 ```
 
+This will start oef which will listen on the defined (or default) port and forward calls to `/v1/embeddings` to the defined Ollama url and translate to the expected json formats in both directions.
+
 ![Console](doc/Console.jpg)
 
-|Setting|Command line argument|Environment variable|
-|-|-|-|
-|Port|--port|PORT|
-|Ollama Url|--ollamaurl|OLLAMAURL|
+### Settings
+
+The following settings can be defined when running oef:
+
+|Setting|Command line argument|Environment variable|Default value|
+|-|-|-|-|
+|Port|--port|PORT|11435|
+|Ollama Url|--ollamaurl|OLLAMAURL|- (mandatory)|
