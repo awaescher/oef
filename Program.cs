@@ -1,11 +1,30 @@
 using System.Text.Json;
 using System.Text;
 
-var builder = WebApplication.CreateBuilder(args);
+var config = new ConfigurationBuilder()
+	.AddJsonFile("appsettings.json", optional: true)
+	.AddEnvironmentVariables()
+	.AddCommandLine(args)
+	.Build();
 
+var port = config.GetValue<int>("Port");
+var ollamaUrl = config.GetValue<string>("OllamaUrl");
+
+var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-var apiUrl = Environment.GetEnvironmentVariable("OLLAMA_ENDPOINT") ?? throw new InvalidOperationException("OLLAMA_ENDPOINT environment variable is required");
+if (port < 1)
+	port = 11434 + 1; // next to the Ollama port
+
+if (string.IsNullOrWhiteSpace(ollamaUrl))
+	throw new ArgumentException("Ollama url is not set. Define it within appsettings.json, per environment variable OLLAMAURL or by command line argument --ollamaUrl='...'");
+
+Console.WriteLine("==================================");
+Console.WriteLine($" oef: Ollama Embeddings Forwarder");
+Console.WriteLine("----------------------------------");
+Console.WriteLine($"Listening on port {port}");
+Console.WriteLine($"Forwarding to \"{ollamaUrl}\"");
+Console.WriteLine("");
 
 app.MapPost("/v1/embeddings", async (HttpContext context) =>
 {
@@ -19,7 +38,7 @@ app.MapPost("/v1/embeddings", async (HttpContext context) =>
 		Console.WriteLine($"forwarding /v1/embeddings \"{body.Input.Substring(0, Math.Min(50, body.Input.Length))} ...\"");
 
 		var results = new List<EmbeddingData>();
-		var embedding = await FetchEmbeddings(apiUrl, body.Model, body.Input);
+		var embedding = await FetchEmbeddings(ollamaUrl, body.Model, body.Input);
 		results.Add(new EmbeddingData
 		{
 			Object = "embedding",
